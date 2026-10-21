@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 
             // 자동 공격은 별도 기본 공격력 + 자동 업그레이드 보너스
             "function autoAttackPower(){" +
-            "return Math.max(1,Math.floor(levelMultiplier())+Math.floor(10*(Math.pow(2,autoDamageLevel)-1));" +
+            "return Math.max(1,Math.floor(levelMultiplier())+Math.floor(10*(Math.pow(2,autoDamageLevel)-1)));" +
             "}" +
 
             "function xpNeedValue(){return Math.floor(10*Math.pow(1.5,lv-1));}" +
