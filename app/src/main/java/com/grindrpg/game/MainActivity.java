@@ -110,9 +110,9 @@ public class MainActivity extends Activity {
             "];" +
             "const monsterPrefixes=['심연의','불타는','얼어붙은','고대의','타락한','천상의','혼돈의','암흑의','차원의','종말의'];" +
             "const monsterTypes=['슬라임','늑대','골렘','드래곤','기사','마법사','거미','악마'];" +
-            "for(let i=20;i<100;i++){" +
+            "for(let i=20;i<1000;i++){" +
             "let n=i-20;" +
-            "monsters.push({name:monsterPrefixes[Math.floor(n/monsterTypes.length)]+ ' '+monsterTypes[n%monsterTypes.length]+' '+(i+1),hp:Math.floor(30000000*Math.pow(1.35,i-19)),xp:Math.floor(5000000*Math.pow(1.32,i-19)),gold:Math.floor(4500000*Math.pow(1.32,i-19))});" +
+            "monsters.push({name:monsterPrefixes[Math.floor(n/monsterTypes.length)%monsterPrefixes.length]+ ' '+monsterTypes[n%monsterTypes.length]+' '+(i+1),hp:Math.floor(30000000*Math.pow(1.35,i-19)),xp:Math.floor(5000000*Math.pow(1.32,i-19)),gold:Math.floor(4500000*Math.pow(1.32,i-19))});" +
             "}" +
 
             "const speeds=[1,0.5,0.3,0.2,0.15,0.1,0.08,0.05,0.03,0.02,0.01];" +
