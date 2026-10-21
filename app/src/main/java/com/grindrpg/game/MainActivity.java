@@ -67,6 +67,9 @@ public class MainActivity extends Activity {
             "<button onclick='upgradeGold()'>골드 획득량 강화</button>" +
             "<p class='small' id='goldCost'></p>" +
 
+            "<button onclick='upgradeXP()'>XP 획득량 강화</button>" +
+            "<p class='small' id='xpUpgradeCost'></p>" +
+
             "<button onclick='upgradeAutoDamage()'>자동 공격력 강화</button>" +
             "<p class='small' id='autoCost'></p>" +
 
@@ -105,12 +108,18 @@ public class MainActivity extends Activity {
             "{name:'우주 군주',hp:14000000,xp:2200000,gold:1900000}," +
             "{name:'최종 보스',hp:30000000,xp:5000000,gold:4500000}" +
             "];" +
+            "const monsterPrefixes=['심연의','불타는','얼어붙은','고대의','타락한','천상의','혼돈의','암흑의','차원의','종말의'];" +
+            "const monsterTypes=['슬라임','늑대','골렘','드래곤','기사','마법사','거미','악마'];" +
+            "for(let i=20;i<100;i++){" +
+            "let n=i-20;" +
+            "monsters.push({name:monsterPrefixes[Math.floor(n/monsterTypes.length)]+ ' '+monsterTypes[n%monsterTypes.length]+' '+(i+1),hp:Math.floor(30000000*Math.pow(1.35,i-19)),xp:Math.floor(5000000*Math.pow(1.32,i-19)),gold:Math.floor(4500000*Math.pow(1.32,i-19))});" +
+            "}" +
 
             "const speeds=[1,0.5,0.3,0.2,0.15,0.1,0.08,0.05,0.03,0.02,0.01];" +
 
             "let lv=1,xp=0,gold=0;" +
             "let baseAtk=1,attackLevel=0;" +
-            "let goldLevel=0,autoDamageLevel=0,speedLevel=0;" +
+            "let goldLevel=0,xpLevel=0,autoDamageLevel=0,speedLevel=0;" +
             "let autoOn=false,autoTimer=null;" +
             "let monsterIndex=0;" +
             "let monsterHP=monsters[0].hp;" +
@@ -127,6 +136,8 @@ public class MainActivity extends Activity {
             "function xpNeedValue(){return Math.floor(10*Math.pow(1.5,lv-1));}" +
             "function attackCost(){return Math.floor(20*Math.pow(1.65,attackLevel));}" +
             "function goldUpgradeCost(){return Math.floor(30*Math.pow(1.8,goldLevel));}" +
+            "function xpUpgradeCost(){return Math.floor(40*Math.pow(1.8,xpLevel));}" +
+            "function xpMultiplier(){return Math.pow(1.5,xpLevel);}" +
             "function autoDamageCost(){return Math.floor(25*Math.pow(1.65,autoDamageLevel));}" +
             "function speedCost(){return Math.floor(50*Math.pow(2,speedLevel));}" +
 
@@ -139,14 +150,15 @@ public class MainActivity extends Activity {
             "let m=monsters[monsterIndex];" +
             "let earned=Math.floor(m.gold*Math.pow(1.5,goldLevel));" +
             "gold+=earned;" +
-            "xp+=m.xp;" +
+            "let earnedXP=Math.floor(m.xp*xpMultiplier());" +
+            "xp+=earnedXP;" +
             "while(xp>=xpNeedValue()){" +
             "xp-=xpNeedValue();" +
             "lv++;" +
             "document.getElementById('message').innerText='레벨 업! 현재 레벨 '+lv;" +
             "}" +
             "monsterHP=m.hp;" +
-            "document.getElementById('message').innerText='처치! +'+earned+' 골드, +'+m.xp+' XP';" +
+            "document.getElementById('message').innerText='처치! +'+earned+' 골드, +'+earnedXP+' XP';" +
             "}" +
             "render();" +
             "}" +
@@ -167,6 +179,15 @@ public class MainActivity extends Activity {
             "gold-=c;" +
             "goldLevel++;" +
             "msg('골드 획득량 증가!');" +
+            "render();" +
+            "}" +
+
+            "function upgradeXP(){" +
+            "let c=xpUpgradeCost();" +
+            "if(gold<c){msg('골드가 부족해!');return;}" +
+            "gold-=c;" +
+            "xpLevel++;" +
+            "msg('XP 획득량 강화 완료!');" +
             "render();" +
             "}" +
 
@@ -220,7 +241,7 @@ public class MainActivity extends Activity {
             "document.getElementById('monsterName').innerText=m.name;" +
             "document.getElementById('hpText').innerText=Math.max(0,monsterHP).toLocaleString()+' / '+m.hp.toLocaleString();" +
             "document.getElementById('hpBar').style.width=Math.max(0,monsterHP/m.hp*100)+'%';" +
-            "document.getElementById('monsterInfo').innerText='보상: '+m.xp+' XP / '+Math.floor(m.gold*Math.pow(1.5,goldLevel))+' 골드';" +
+            "document.getElementById('monsterInfo').innerText='보상: '+Math.floor(m.xp*xpMultiplier()).toLocaleString()+' XP / '+Math.floor(m.gold*Math.pow(1.5,goldLevel)).toLocaleString()+' 골드';" +
             "document.getElementById('lv').innerText=lv;" +
             "document.getElementById('xp').innerText=xp.toLocaleString();" +
             "document.getElementById('xpNeed').innerText=xpNeedValue().toLocaleString();" +
@@ -230,6 +251,7 @@ public class MainActivity extends Activity {
             "document.getElementById('gold').innerText=gold.toLocaleString();" +
             "document.getElementById('attackCost').innerText='비용: '+attackCost().toLocaleString()+' 골드 | 강화: '+attackLevel+'회';" +
             "document.getElementById('goldCost').innerText='비용: '+goldUpgradeCost().toLocaleString()+' 골드 | 보상 배율: x'+Math.pow(1.5,goldLevel).toFixed(2);" +
+            "document.getElementById('xpUpgradeCost').innerText='비용: '+xpUpgradeCost().toLocaleString()+' 골드 | XP 배율: x'+xpMultiplier().toFixed(2)+' | 강화: '+xpLevel+'회';" +
             "document.getElementById('autoCost').innerText='비용: '+autoDamageCost().toLocaleString()+' 골드 | 자동 공격 추가 피해: +'+Math.floor(10*(Math.pow(2,autoDamageLevel)-1)).toLocaleString()+' | 다음 강화 시 피해 크게 증가';" +
             "document.getElementById('speedInfo').innerText='현재 간격: '+speeds[speedLevel]+'초 | 다음 비용: '+(speedLevel<speeds.length-1?speedCost().toLocaleString()+' 골드':'최고 속도');" +
             "document.getElementById('autoBtn').innerText='자동 공격: '+(autoOn?'ON':'OFF');" +
