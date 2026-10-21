@@ -86,14 +86,24 @@ public class MainActivity extends Activity {
             "const monsters=[" +
             "{name:'슬라임',hp:10,xp:5,gold:3}," +
             "{name:'달팽이',hp:50,xp:15,gold:10}," +
-            "{name:'고블린',hp:150,xp:40,gold:25}," +
-            "{name:'박쥐',hp:400,xp:100,gold:60}," +
-            "{name:'해골 전사',hp:1000,xp:250,gold:150}," +
-            "{name:'오크',hp:3000,xp:600,gold:400}," +
-            "{name:'골렘',hp:10000,xp:1500,gold:1000}," +
-            "{name:'드래곤',hp:50000,xp:5000,gold:3500}," +
-            "{name:'마왕',hp:250000,xp:20000,gold:15000}," +
-            "{name:'최종 보스',hp:1000000,xp:100000,gold:100000}" +
+            "{name:'들쥐',hp:100,xp:25,gold:18}," +
+            "{name:'고블린',hp:180,xp:45,gold:30}," +
+            "{name:'박쥐',hp:350,xp:90,gold:65}," +
+            "{name:'늑대',hp:700,xp:170,gold:120}," +
+            "{name:'해골 전사',hp:1400,xp:330,gold:240}," +
+            "{name:'오크 전사',hp:3000,xp:700,gold:500}," +
+            "{name:'독거미',hp:6500,xp:1400,gold:1000}," +
+            "{name:'골렘',hp:14000,xp:2800,gold:2100}," +
+            "{name:'미노타우로스',hp:30000,xp:5500,gold:4200}," +
+            "{name:'와이번',hp:65000,xp:11000,gold:8500}," +
+            "{name:'드래곤',hp:140000,xp:23000,gold:18000}," +
+            "{name:'리치',hp:300000,xp:48000,gold:38000}," +
+            "{name:'마왕의 기사',hp:650000,xp:100000,gold:80000}," +
+            "{name:'마왕',hp:1400000,xp:220000,gold:180000}," +
+            "{name:'고대의 파괴자',hp:3000000,xp:480000,gold:400000}," +
+            "{name:'차원의 괴수',hp:6500000,xp:1000000,gold:850000}," +
+            "{name:'우주 군주',hp:14000000,xp:2200000,gold:1900000}," +
+            "{name:'최종 보스',hp:30000000,xp:5000000,gold:4500000}" +
             "];" +
 
             "const speeds=[1,0.5,0.3,0.2,0.15,0.1,0.08,0.05,0.03,0.02,0.01];" +
@@ -111,13 +121,13 @@ public class MainActivity extends Activity {
 
             // 자동 공격은 별도 기본 공격력 + 자동 업그레이드 보너스
             "function autoAttackPower(){" +
-            "return Math.max(1,Math.floor(levelMultiplier())+autoDamageLevel*5);" +
+            "return Math.max(1,Math.floor(levelMultiplier())+Math.floor(10*(Math.pow(2,autoDamageLevel)-1));" +
             "}" +
 
             "function xpNeedValue(){return Math.floor(10*Math.pow(1.5,lv-1));}" +
             "function attackCost(){return Math.floor(20*Math.pow(1.65,attackLevel));}" +
             "function goldUpgradeCost(){return Math.floor(30*Math.pow(1.8,goldLevel));}" +
-            "function autoDamageCost(){return Math.floor(25*Math.pow(1.7,autoDamageLevel));}" +
+            "function autoDamageCost(){return Math.floor(25*Math.pow(1.65,autoDamageLevel));}" +
             "function speedCost(){return Math.floor(50*Math.pow(2,speedLevel));}" +
 
             "function attack(){damageMonster(playerAttack());}" +
@@ -220,7 +230,7 @@ public class MainActivity extends Activity {
             "document.getElementById('gold').innerText=gold.toLocaleString();" +
             "document.getElementById('attackCost').innerText='비용: '+attackCost().toLocaleString()+' 골드 | 강화: '+attackLevel+'회';" +
             "document.getElementById('goldCost').innerText='비용: '+goldUpgradeCost().toLocaleString()+' 골드 | 보상 배율: x'+Math.pow(1.5,goldLevel).toFixed(2);" +
-            "document.getElementById('autoCost').innerText='비용: '+autoDamageCost().toLocaleString()+' 골드 | 강화 보너스: +'+(autoDamageLevel*5);" +
+            "document.getElementById('autoCost').innerText='비용: '+autoDamageCost().toLocaleString()+' 골드 | 자동 공격 추가 피해: +'+Math.floor(10*(Math.pow(2,autoDamageLevel)-1)).toLocaleString()+' | 다음 강화 시 피해 크게 증가';" +
             "document.getElementById('speedInfo').innerText='현재 간격: '+speeds[speedLevel]+'초 | 다음 비용: '+(speedLevel<speeds.length-1?speedCost().toLocaleString()+' 골드':'최고 속도');" +
             "document.getElementById('autoBtn').innerText='자동 공격: '+(autoOn?'ON':'OFF');" +
             "}" +
