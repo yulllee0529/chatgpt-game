@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
             "<!DOCTYPE html>" +
             "<html><head><meta charset='UTF-8'>" +
             "<meta name='viewport' content='width=device-width, initial-scale=1'>" +
-            "<title>Grind RPG</title>" +
+            "<title>Grind RPG v1.1</title>" +
 
             "<style>" +
             "body{background:#15151f;color:white;font-family:sans-serif;text-align:center;margin:0;padding:12px}" +
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
             ".small{font-size:12px;color:#c7c7d9}" +
             "</style></head><body>" +
 
-            "<h1>⚔ Grind RPG</h1>" +
+            "<h1>⚔ Grind RPG <span style='font-size:12px;color:#c7c7d9'>v1.1</span></h1>" +
 
             "<div class='box'>" +
             "<h2 id='monsterName'></h2>" +
@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
             "const monsterTypes=['슬라임','늑대','골렘','드래곤','기사','마법사','거미','악마'];" +
             "for(let i=20;i<1000;i++){" +
             "let n=i-20;" +
-            "monsters.push({name:monsterPrefixes[Math.floor(n/monsterTypes.length)%monsterPrefixes.length]+ ' '+monsterTypes[n%monsterTypes.length]+' '+(i+1),hp:Math.floor(30000000*Math.pow(1.35,i-19)),xp:Math.floor(5000000*Math.pow(1.32,i-19)),gold:Math.floor(4500000*Math.pow(1.32,i-19))});" +
+            "monsters.push({name:monsterPrefixes[Math.floor(n/monsterTypes.length)%monsterPrefixes.length]+ ' '+monsterTypes[n%monsterTypes.length]+' '+(i+1),hp:Math.floor(30000000*Math.pow(1.35,i-19)),xp:Math.floor(5000000*Math.pow(1.5,i-19)),gold:Math.floor(4500000*Math.pow(1.5,i-19))});" +
             "}" +
 
             "const speeds=[1,0.5,0.3,0.2,0.15,0.1,0.08,0.05,0.03,0.02,0.01];" +
@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
             "let goldLevel=0,xpLevel=0,autoDamageLevel=0,speedLevel=0;" +
             "let autoOn=false,autoTimer=null;" +
             "let monsterIndex=0;" +
-            "let monsterHP=monsters[0].hp;" +
+            "let monsterHP=monsters[0].hp;function saveGame(){try{localStorage.setItem('grindRpgSaveV11',JSON.stringify({lv:lv,xp:xp,gold:gold,baseAtk:baseAtk,attackLevel:attackLevel,goldLevel:goldLevel,xpLevel:xpLevel,autoDamageLevel:autoDamageLevel,speedLevel:speedLevel,monsterIndex:monsterIndex,monsterHP:monsterHP}));}catch(e){}}function loadGame(){try{let s=JSON.parse(localStorage.getItem('grindRpgSaveV11')||'null');if(!s)return;lv=Math.max(1,Number(s.lv)||1);xp=Math.max(0,Number(s.xp)||0);gold=Math.max(0,Number(s.gold)||0);baseAtk=Math.max(1,Number(s.baseAtk)||1);attackLevel=Math.max(0,Number(s.attackLevel)||0);goldLevel=Math.max(0,Number(s.goldLevel)||0);xpLevel=Math.max(0,Number(s.xpLevel)||0);autoDamageLevel=Math.max(0,Number(s.autoDamageLevel)||0);speedLevel=Math.min(speeds.length-1,Math.max(0,Number(s.speedLevel)||0));monsterIndex=Math.min(monsters.length-1,Math.max(0,Number(s.monsterIndex)||0));monsterHP=Math.max(1,Number(s.monsterHP)||monsters[monsterIndex].hp);}catch(e){}}loadGame();" +
 
             // 일반 공격력에는 baseAtk만 적용
             "function levelMultiplier(){return Math.pow(1.1,lv-1);}" +
@@ -236,7 +236,7 @@ public class MainActivity extends Activity {
 
             "function msg(t){document.getElementById('message').innerText=t;}" +
 
-            "function render(){" +
+            "function render(){saveGame();" +
             "let m=monsters[monsterIndex];" +
             "document.getElementById('monsterName').innerText=m.name;" +
             "document.getElementById('hpText').innerText=Math.max(0,monsterHP).toLocaleString()+' / '+m.hp.toLocaleString();" +
