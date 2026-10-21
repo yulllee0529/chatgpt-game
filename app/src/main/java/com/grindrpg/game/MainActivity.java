@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 
             // 자동 공격은 별도 기본 공격력 + 자동 업그레이드 보너스
             "function autoAttackPower(){" +
-            "return Math.max(1,Math.floor(levelMultiplier())+autoDamageLevel*5);" +
+            "return Math.max(1,Math.floor(levelMultiplier())+Math.floor(12*autoDamageLevel+2*Math.pow(autoDamageLevel,1.5)));" +
             "}" +
 
             "function xpNeedValue(){return Math.floor(10*Math.pow(1.5,lv-1));}" +
@@ -252,7 +252,7 @@ public class MainActivity extends Activity {
             "document.getElementById('attackCost').innerText='비용: '+attackCost().toLocaleString()+' 골드 | 강화: '+attackLevel+'회';" +
             "document.getElementById('goldCost').innerText='비용: '+goldUpgradeCost().toLocaleString()+' 골드 | 보상 배율: x'+Math.pow(1.5,goldLevel).toFixed(2);" +
             "document.getElementById('xpUpgradeCost').innerText='비용: '+xpUpgradeCost().toLocaleString()+' 골드 | XP 배율: x'+xpMultiplier().toFixed(2)+' | 강화: '+xpLevel+'회';" +
-            "document.getElementById('autoCost').innerText='비용: '+autoDamageCost().toLocaleString()+' 골드 | 자동 공격 추가 피해: +'+(autoDamageLevel*5).toLocaleString()+' | 강화 1회당 피해 +5';" +
+            "document.getElementById('autoCost').innerText='비용: '+autoDamageCost().toLocaleString()+' 골드 | 자동 공격 추가 피해: +'+Math.floor(12*autoDamageLevel+2*Math.pow(autoDamageLevel,1.5)).toLocaleString()+' | 강화할수록 추가 피해 증가';" +
             "document.getElementById('speedInfo').innerText='현재 간격: '+speeds[speedLevel]+'초 | 다음 비용: '+(speedLevel<speeds.length-1?speedCost().toLocaleString()+' 골드':'최고 속도');" +
             "document.getElementById('autoBtn').innerText='자동 공격: '+(autoOn?'ON':'OFF');" +
             "}" +
